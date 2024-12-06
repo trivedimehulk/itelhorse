@@ -1,0 +1,158 @@
+/* General Layout */
+#container {
+    display: flex;
+    height: 100vh;
+}
+
+#leftNav {
+    width: 25%;
+    background: #34495e;
+    color: white;
+    overflow-y: auto;
+    padding: 10px;
+}
+
+#rightContent {
+    width: 75%;
+    display: flex;
+    flex-direction: column;
+}
+
+#titleBox {
+    height: 30%;
+    background: #ecf0f1;
+    padding: 10px;
+}
+
+#mainPlayArea {
+    height: 70%;
+    background: #bdc3c7;
+    padding: 10px;
+}
+
+/* Context Menu */
+#contextMenu {
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+}
+
+#contextMenu.hidden {
+    display: none;
+}
+
+#contextMenu div {
+    padding: 10px;
+    cursor: pointer;
+    color: #2c3e50;
+}
+
+#contextMenu div:hover {
+    background: #1abc9c;
+    color: white;
+}
+
+/* Tree View */
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+li {
+    padding: 5px;
+    cursor: pointer;
+}
+
+li.folder {
+    font-weight: bold;
+}
+
+li.file {
+    padding-left: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Tree View Icons */
+li.folder::before {
+    content: "\f07b"; /* Folder icon (FontAwesome) */
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; /* This is important for FontAwesome */
+    margin-right: 10px;
+}
+
+li.file::before {
+    content: "\f15b"; /* File icon (FontAwesome) */
+    font-family: "Font Awesome 5 Free"; 
+    font-weight: 900; /* This is important for FontAwesome */
+    margin-right: 10px;
+}
+
+/* Highlight selected folder */
+li.folder.selected {
+    background-color: #1abc9c;
+    color: white;
+    font-weight: bold;
+    border-radius: 4px;
+}
+
+/* Bookmark Dialog */
+#bookmarkDialog {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000; /* Ensure it floats above other content */
+    padding: 20px;
+    display: none; /* Hidden by default */
+}
+
+/* Show the dialog when the 'hidden' class is removed */
+#bookmarkDialog:not(.hidden) {
+    display: block;
+}
+
+/* Dialog content layout */
+#dialogContent {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+/* Buttons */
+#saveBookmark,
+#cancelBookmark {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+/* Save Button Styling */
+#saveBookmark {
+    background-color: #1abc9c;
+    color: white;
+    font-weight: bold;
+}
+
+/* Cancel Button Styling */
+#cancelBookmark {
+    background-color: #e74c3c;
+    color: white;
+    font-weight: bold;
+}
+
+
