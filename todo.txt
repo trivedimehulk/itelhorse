@@ -1,0 +1,29 @@
+Love this.
+
+I assume there is no db & looking at github code it's only js based POC.
+
+Let's start with this basic functionality for now to productionize.
+
+We should do a few things to make this more usable, I assume with DB (localStorage - chrome.storage) most of these would be resolved.
+
+Bugs
+- duplicates bookmark when edited
+- json exports folders but not bookmarks
+
+UI
+- let's remove those animations of modal window
+- sequence on URL first, then title (better if we can fetch & let them edit) and then tags
+- alternate row colors seem forced and confusing.. let's remove that for now
+
+Must have
+- Open URL in new tab when clicked on bookmark
+- ability to move bookmark from one to another folder
+- ability to select folder(s) while editing bookmark
+- ability to have the same bookmark in multiple folders
+- tell the allowed max size and accepted formats of image
+- rightclick on bookmark to edit
+
+Good to have
+- fetch thumbnail or preview of link - or - allow user to pick from existing images on webpage
+
+let's talk in your morning.
