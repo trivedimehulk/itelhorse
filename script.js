@@ -146,6 +146,14 @@ function saveBookmark() {
     return;
   }
 
+  debugger;
+  // Check for duplicate URL
+  const isDuplicate = bookmarks.some(bookmark => bookmark.url === url);
+  if (isDuplicate) {
+    alert('A bookmark with the same URL already exists.');
+    return;
+  }
+
   const file = imageInput.files[0];
 
   if (file) {
@@ -166,7 +174,6 @@ function saveBookmark() {
     finalizeSaveBookmark(title, tags, url, null);
   }
 }
-
 function saveBookmark2() {
   const title = document.getElementById('title').value.trim();
   const tags = document.getElementById('tags').value.trim();
@@ -182,7 +189,97 @@ function saveBookmark2() {
     alert('Please select a folder to create the bookmark.');
     return;
   }
+
   
+  // Determine if editing an existing bookmark
+  const editingBookmarkId = document.getElementById('bookmarkId').value; // Assume a hidden field for bookmark ID
+
+
+  const isEditing = !!editingBookmarkId;
+
+  // Check for duplicate URL, excluding the current bookmark being edited
+  const isDuplicate = bookmarks.some(bookmark => bookmark.url === url && bookmark.id !== parseInt(editingBookmarkId, 10));
+  if (isDuplicate) {
+    alert('A bookmark with the same URL already exists.');
+    return;
+  }
+
+  const file = imageInput.files[0];
+
+  if (file) {
+    // Validate image size
+    const maxSizeInBytes = 1 * 1024 * 1024; // 1 MB
+    if (file.size > maxSizeInBytes) {
+      alert('The selected image is too large. Please select an image smaller than 1MB.');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const image = e.target.result;
+      finalizeSaveBookmark(title, tags, url, image, editingBookmarkId);
+    };
+    reader.readAsDataURL(file);
+  } else {
+    finalizeSaveBookmark(title, tags, url, null, editingBookmarkId);
+  }
+}
+
+function finalizeSaveBookmark(title, tags, url, image, bookmarkId = null) {
+  if (bookmarkId) {
+    // Update existing bookmark
+    const bookmark = bookmarks.find(b => b.id === parseInt(bookmarkId, 10));
+    if (bookmark) {
+      bookmark.title = title;
+      bookmark.tags = tags;
+      bookmark.url = url;
+      bookmark.image = image;
+    }
+  } else {
+    // Add new bookmark
+    const bookmark = {
+      id: Date.now(),
+      folderId: selectedFolderId,
+      title,
+      tags,
+      url,
+      image,
+    };
+    bookmarks.push(bookmark);
+  }
+
+  closeModal();
+  displayBookmarks();
+}
+
+
+function saveBookmark2bk() {
+  const title = document.getElementById('title').value.trim();
+  const tags = document.getElementById('tags').value.trim();
+  const url = document.getElementById('url').value.trim();
+  const imageInput = document.getElementById('image');
+
+  if (!title || !url) {
+    alert('Please fill in both the Title and URL fields.');
+    return;
+  }
+
+  if (!selectedFolderId) {
+    alert('Please select a folder to create the bookmark.');
+    return;
+  }
+  
+  // Determine if editing an existing bookmark
+  const editingBookmarkId = document.getElementById('bookmarkId').value; // Assume a hidden field for bookmark ID
+  const isEditing = !!editingBookmarkId;
+
+  // Check for duplicate URL, excluding the current bookmark being edited
+  const isDuplicate = bookmarks.some(bookmark => bookmark.url === url && bookmark.id !== parseInt(editingBookmarkId, 10));
+  if (isDuplicate) {
+    alert('A bookmark with the same URL already exists.');
+    return;
+  }
+
   const file = imageInput.files[0];
 
   if (file) {
@@ -239,6 +336,81 @@ function displayBookmarks() {
   const list = document.getElementById('bookmarkList');
   list.innerHTML = '';
 
+  const folderBookmarks = bookmarks.filter(b => b.folderId === selectedFolderId);
+
+  if (folderBookmarks.length === 0) {
+    list.innerHTML = `<p>Why don't you add some...</p>`;
+    return;
+  }
+
+  folderBookmarks.forEach(bookmark => {
+    const div = document.createElement('div');
+    div.className = 'bookmark-item';
+    div.draggable = true; // Enable dragging
+    div.setAttribute('data-bookmark-id', bookmark.id); // Store bookmark ID in the element
+
+    div.innerHTML = `
+      <img src="${bookmark.image || 'https://via.placeholder.com/100'}" alt="${bookmark.title}">
+      <span>${bookmark.title}</span>
+    `;
+
+    // Drag start event
+    div.ondragstart = (event) => {
+      event.dataTransfer.setData('text/plain', JSON.stringify(bookmark));
+      event.dataTransfer.effectAllowed = 'move';
+    };
+
+    // Left-click to open the URL
+    div.onclick = () => openBookmarkUrl(bookmark.url);
+
+    // Handle right-click to show context menu
+    div.oncontextmenu = (event) => {
+      event.preventDefault(); // Prevent the default browser menu
+      showContextMenu(event, bookmark);
+    };
+
+    list.appendChild(div);
+  });
+}
+
+
+function displayBookmarks2() {
+  const list = document.getElementById('bookmarkList');
+  list.innerHTML = '';
+
+  const folderBookmarks = bookmarks.filter(b => b.folderId === selectedFolderId);
+
+  if (folderBookmarks.length === 0) {
+    list.innerHTML = `<p>Why don't you add some...</p>`;
+    return;
+  }
+
+  folderBookmarks.forEach(bookmark => {
+    const div = document.createElement('div');
+    div.className = 'bookmark-item';
+    div.innerHTML = `
+      <img src="${bookmark.image || 'https://via.placeholder.com/100'}" alt="${bookmark.title}">
+      <span>${bookmark.title}</span>
+    `;
+
+    // Handle left-click to open URL
+    div.onclick = () => openBookmarkUrl(bookmark.url);
+
+    // Handle right-click to show context menu
+    div.oncontextmenu = (event) => {
+      event.preventDefault(); // Prevent the default browser menu
+      showContextMenu(event, bookmark);
+    };
+
+    list.appendChild(div);
+  });
+}
+
+
+function displayBookmarks1() {
+  const list = document.getElementById('bookmarkList');
+  list.innerHTML = '';
+
   // Get bookmarks for the selected folder
   const folderBookmarks = bookmarks.filter(b => b.folderId === selectedFolderId);
 
@@ -260,7 +432,29 @@ function displayBookmarks() {
 }
 
 // Open Modal
+
+
 function openModal(bookmark = null) {
+  const modal = document.getElementById('bookmarkModal');
+  modal.style.display = 'block';
+  document.getElementById('bookmarkForm').reset();
+
+  // Populate fields for editing an existing bookmark
+  if (bookmark) {
+    document.getElementById('title').value = bookmark.title;
+    document.getElementById('tags').value = bookmark.tags;
+    document.getElementById('url').value = bookmark.url;
+
+    // Populate hidden bookmarkId field
+    document.getElementById('bookmarkId').value = bookmark.id;
+    
+  } else {
+    // Clear hidden bookmarkId field for new bookmarks
+    document.getElementById('bookmarkId').value = '';
+  }
+}
+
+function openModal1(bookmark = null) {
   const modal = document.getElementById('bookmarkModal');
   modal.style.display = 'block';
   modal.classList.add('animate__zoomIn');
@@ -940,3 +1134,99 @@ function downloadSampleTree() {
     });
 }
 
+function showContextMenu(event, bookmark) {
+  // Remove any existing context menu
+  const existingMenu = document.getElementById('bookmarkContextMenu');
+  if (existingMenu) existingMenu.remove();
+
+  // Create the context menu
+  const menu = document.createElement('div');
+  menu.id = 'bookmarkContextMenu';
+  menu.style.position = 'absolute';
+  menu.style.top = `${event.clientY}px`;
+  menu.style.left = `${event.clientX}px`;
+  menu.style.backgroundColor = '#ffffff';
+  menu.style.border = '1px solid #ccc';
+  menu.style.padding = '5px';
+  menu.style.zIndex = 1000;
+
+  // Add "Edit" option
+  const editOption = document.createElement('div');
+  editOption.innerText = 'Edit';
+  editOption.style.cursor = 'pointer';
+  editOption.onclick = () => {
+    openModal(bookmark); // Open the edit popup
+    menu.remove(); // Remove the context menu
+  };
+
+  menu.appendChild(editOption);
+  document.body.appendChild(menu);
+
+  // Remove menu when clicking elsewhere
+  document.addEventListener('click', () => {
+    menu.remove();
+  }, { once: true });
+}
+
+function openBookmarkUrl(url) {
+  if (url) {
+    // Ensure the URL starts with "https://"
+    if (!url.startsWith('http://') && !url.startsWith('https://')) {
+      url = `https://${url}`;
+    }
+    window.open(url, '_blank'); // Open the URL in a new tab or window
+  }
+}
+
+//this will enable tree to drag and drop bookmarks
+$('#folderTree').on('ready.jstree', function () {
+  $('#folderTree').jstree(true).settings.core.check_callback = true;
+});
+
+// Add dragover and drop event handlers to the folder tree
+$('#folderTree').on('dragover', function (event) {
+  event.preventDefault();
+  event.originalEvent.dataTransfer.dropEffect = 'move';
+});
+
+$('#folderTree').on('drop', function (event) {
+  event.preventDefault();
+  const data = event.originalEvent.dataTransfer.getData('text/plain');
+  const bookmark = JSON.parse(data);
+
+  // Get the folder ID where the bookmark was dropped
+  const targetFolderId = $(event.target).closest('li').attr('id');
+
+  // Validate: Ensure the bookmark is not dropped in the same folder
+  if (bookmark.folderId === targetFolderId) {
+    alert('Bookmark is already in this folder.');
+    return;
+  }
+
+  // Update the folderId for the bookmark
+  bookmark.folderId = targetFolderId;
+
+  // Update the bookmarks array
+  const bookmarkIndex = bookmarks.findIndex(b => b.id === bookmark.id);
+  if (bookmarkIndex !== -1) {
+    bookmarks[bookmarkIndex].folderId = targetFolderId;
+  }
+
+  // Refresh the bookmark list and folder tree
+  displayBookmarks();
+  //$('#folderTree').jstree(true).refresh();
+});
+
+
+$('#folderTree')
+  .on('dragover', 'li', function (event) {
+    event.preventDefault();
+    $(this).addClass('drop-target'); // Highlight the folder as a drop target
+  })
+  .on('dragenter', 'li', function () {
+    $(this).addClass('drop-target'); // Highlight the folder
+  })
+  .on('dragleave', 'li', function () {
+    $(this).removeClass('drop-target'); // Remove highlight
+  })
+  

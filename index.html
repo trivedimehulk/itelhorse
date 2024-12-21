@@ -30,16 +30,20 @@
         <div class="bookmark-list" id="bookmarkList"></div>
       </div>
 
-      <div id="bookmarkModal" class="modal animate__animated">
+      <div id="bookmarkModal" class="modal">
         <div class="modal-content">
           <span class="close" onclick="closeModal()">&times;</span>
           <form id="bookmarkForm">
+            <input type="hidden" id="bookmarkId">
+
+            <label for="url">URL:</label> 
+            <input type="url" id="url" name="url" required>
+
             <label for="title">Title:</label>
             <input type="text" id="title" name="title" required>
             <label for="tags">Tags:</label>
             <input type="text" id="tags" name="tags">
-            <label for="url">URL:</label>
-            <input type="url" id="url" name="url" required>
+            
             <label for="image">Upload Image:</label>
             <input type="file" id="image" name="image">
             <div class="form-buttons">
@@ -51,6 +55,7 @@
       </div>
     </div>
   </div>
+  
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>

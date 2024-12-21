@@ -147,3 +147,26 @@ form input, form button {
 .jstree-contextmenu {
   z-index: 10000; /* Ensure the menu is on top of other elements */
 }
+
+
+/* bm drag drop visual */
+.bookmark-item {
+  cursor: grab;
+}
+
+.bookmark-item:active {
+  cursor: grabbing;
+}
+
+#folderTree li {
+  border: 1px dashed #ccc;
+}
+
+#folderTree li:hover {
+  background-color: #f0f0f0;
+}
+
+.drop-target {
+  background-color: #f0f8ff !important; /* Light blue highlight */
+  border: 2px dashed #0078d7; /* Dashed border to indicate drop target */
+}
