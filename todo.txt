@@ -1,3 +1,26 @@
+Bugs:
+duplicate bookmark - fixed
+json exports folders but not bookmarks - cant reproduce
+let's remove those animations of modal window - fixed - 
+remove alternate row colors - i cant see them
+remove modal animation - fixed
+fix sequence of fields - fixed
+
+Features:
+completed
+1. drag drop of bookmarks
+2. edit bookmark - in context menu now
+
+pending
+1. save everything in local chrom storage
+2. need to fix export import
+- ability to have the same bookmark in multiple folders
+- tell the allowed max size and accepted formats of image
+Good to have
+- fetch thumbnail or preview of link - or - allow user to pick from existing images on webpage
+
+
+----
 Everytning is pending
 
 Love this.
@@ -13,7 +36,7 @@ Bugs
 - json exports folders but not bookmarks - cant reproduce
 
 UI
-- let's remove those animations of modal window - fixed - 
+- 
 - sequence on URL first, then title (better if we can fetch & let them edit) and then tags - fixed the order. let us not getting into fetching title etc. it willl have cross browser, device and other issues.
 - alternate row colors seem forced and confusing.. let's remove that for now - which alternate row colors?
 
@@ -24,8 +47,7 @@ Must have
         - ability to move bookmark from one to another folder
         - ability to select folder(s) while editing bookmark
 
-- ability to have the same bookmark in multiple folders
-- tell the allowed max size and accepted formats of image
+
 - rightclick on bookmark to edit - done
 
 Good to have
