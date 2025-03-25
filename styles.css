@@ -53,9 +53,7 @@ body {
   border-right: 1px solid #ddd;
 }
 
-#folderTree {
-  font-size: 14px;
-}
+
 
 .main-content {
   flex: 1;
@@ -158,15 +156,70 @@ form input, form button {
   cursor: grabbing;
 }
 
-#folderTree li {
-  border: 1px dashed #ccc;
+
+
+
+
+/* Professional jsTree style */
+
+/* Clean + Compact Tree Layout */
+/* Clean up the tree look */
+#folderTree {
+  background-color: #fff;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-family: "Segoe UI", sans-serif;
+  font-size: 14px;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
-#folderTree li:hover {
-  background-color: #f0f0f0;
+/* Use jsTree's built-in icons but override with FA */
+#folderTree .jstree-anchor {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 6px;
+  border-radius: 4px;
+  text-decoration: none;
+  color: #333;
 }
 
-.drop-target {
-  background-color: #f0f8ff !important; /* Light blue highlight */
-  border: 2px dashed #0078d7; /* Dashed border to indicate drop target */
+#folderTree .jstree-anchor:hover {
+  background-color: #f0f4fa;
+}
+
+#folderTree .jstree-clicked {
+  background-color: #0078d7 !important;
+  color: white !important;
+}
+
+/* Hide default yellow folder icons */
+#folderTree .jstree-icon {
+  display: none !important;
+}
+
+/* Use Font Awesome for ALL icons */
+#folderTree .jstree-node > .jstree-anchor::before {
+  content: "\f07b"; /* solid folder */
+  font-family: "Font Awesome 6 Free";
+  font-weight: 900;
+  font-size: 14px;
+  color: #4a90e2;
+  margin-right: 6px;
+}
+
+/* Reset default browser drop highlighting */
+#folderTree:focus,
+#folderTree:active,
+#folderTree *:focus {
+  outline: none !important;
+}
+
+
+
+
+#folderTree {
+  overflow-x: hidden; /* disables horizontal scroll */
 }

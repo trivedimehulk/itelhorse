@@ -2,15 +2,16 @@
 
 Vj reported items#
 
-1. Now let's add... Folder Rename, right click on folder should allow you to rename it.
+1. Now let's add... Folder Rename, right click on folder should allow you to rename it. - done
 
 2. These alternate row colors needs to removed. & ui is very basic.. can we use some better tree and modify it?
-Screenshot 2025-02-28 at 5.18.53 PM.png
-3. Drag & drop is good but can we highlight destination folder when dropping.. may be trying another tree library can help with all these interactions & we don't need to build 
+Screenshot 2025-02-28 at 5.18.53 PM.png - done
 
-4. Attached is the exported file. you will see folders but not files when you import it.
+3. pending - Drag & drop is good but can we highlight destination folder when dropping.. may be trying another tree library can help with all these interactions & we don't need to build 
 
-5. Once you drop the URL, fetching thumbnail & URL would be the best thing for this
+4. Dont worry about it. just try export import, if it works and le me knw -  Attached is the exported file. you will see folders but not files when you import it.
+
+5. next phase - Once you drop the URL, fetching thumbnail & URL would be the best thing for this
 
 +++++++
 

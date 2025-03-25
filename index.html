@@ -7,14 +7,15 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-  <link rel="icon" href="favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/> 
 </head>
+</html>
 <body>
   <div class="container">
     <div class="header">
       <h1>BM</h1>
       <div class="import-export">
-	  <button id="downloadSampleTreeButton" onclick="downloadSampleTree()">Download Sample Tree</button>
+        <button id="downloadSampleTreeButton" onclick="downloadSampleTree()">Download Sample Tree</button>
         <button id="exportTreeButton">Export Tree</button>
         <button onclick="document.getElementById('importFile').click();">Import Tree</button>
         <input type="file" id="importFile" style="display:none;" accept=".json">
@@ -24,7 +25,7 @@
       <div class="left-nav">
         <div id="folderTree"></div>
       </div>
-      <div class="main-content" id="mainContent">
+      <div class="main-content">
         <div class="search-bar">
           <input type="text" id="searchInput" placeholder="Search..." onkeyup="searchBookmarks()">
         </div>

@@ -9,9 +9,9 @@ $(function () {
     core: {
       check_callback: true,
       themes: {
-        dots: false,
+        dots: true,
         icons: true,
-        stripes: true,
+        stripes: false,
       },
       data: [
   {
@@ -26,6 +26,18 @@ $(function () {
     contextmenu: {
       items: function ($node) {
         return {
+          RenameFolder: {
+            label: "Rename Folder",
+            _disabled: $node.id === "root", // disable if it's the root node
+            action: function () {
+              if ($node.id === "root") return; // extra safety check
+              const currentName = $node.text;
+              const newName = prompt("Enter new folder name:", currentName);
+              if (newName && newName.trim() !== "") {
+                $('#folderTree').jstree().rename_node($node, newName.trim());
+              }
+            }
+          },                   
           CreateFolder: {
             label: "Create Folder",
             action: function () {
@@ -571,9 +583,9 @@ function importTreeWithDetails1(event) {
         core: {
           check_callback: true,
           themes: {
-            dots: false,
+            dots: true,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: [],
         },
@@ -645,9 +657,9 @@ function importTreeWithDetails2(event) {
         core: {
           check_callback: true,
           themes: {
-            dots: false,
+            dots: true,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: [], // Start with empty data
         },
@@ -748,9 +760,9 @@ function importTreeWithDetails3(event) {
         core: {
           check_callback: true,
           themes: {
-            dots: false,
+            dots: true,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: [], // Initialize with empty data
         },
@@ -794,7 +806,7 @@ function importTreeWithDetails4(event) {
           themes: {
             dots: false,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: treeData, // Load the imported tree data directly here
         },
@@ -854,9 +866,9 @@ function importTreeWithDetails(event) {
         core: {
           check_callback: true,
           themes: {
-            dots: false,
+            dots: true,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: treeData,
         },
@@ -864,6 +876,18 @@ function importTreeWithDetails(event) {
         contextmenu: {
           items: function ($node) {
             return {
+              RenameFolder: {
+                label: "Rename Folder",
+                _disabled: $node.id === "root", // disable if it's the root node
+                action: function () {
+                  if ($node.id === "root") return; // extra safety check
+                  const currentName = $node.text;
+                  const newName = prompt("Enter new folder name:", currentName);
+                  if (newName && newName.trim() !== "") {
+                    $('#folderTree').jstree().rename_node($node, newName.trim());
+                  }
+                }
+              }, 
               CreateFolder: {
                 label: "Create Folder",
                 action: function () {
@@ -967,7 +991,7 @@ function importTreeWithDetails5(event) {
           themes: {
             dots: false,
             icons: true,
-            stripes: true,
+            stripes: false,
           },
           data: treeData, // Load the imported tree data directly
 		  plugins: ["contextmenu"], // Enable the contextmenu plugin
@@ -1191,6 +1215,7 @@ $('#folderTree').on('dragover', function (event) {
 
 $('#folderTree').on('drop', function (event) {
   event.preventDefault();
+  
   const data = event.originalEvent.dataTransfer.getData('text/plain');
   const bookmark = JSON.parse(data);
 
@@ -1214,6 +1239,7 @@ $('#folderTree').on('drop', function (event) {
 
   // Refresh the bookmark list and folder tree
   displayBookmarks();
+  
   //$('#folderTree').jstree(true).refresh();
 });
 
@@ -1229,4 +1255,7 @@ $('#folderTree')
   .on('dragleave', 'li', function () {
     $(this).removeClass('drop-target'); // Remove highlight
   })
+  
+
+
   
